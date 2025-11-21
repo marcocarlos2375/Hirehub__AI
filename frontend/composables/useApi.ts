@@ -16,12 +16,29 @@ export const useApi = () => {
     formData.append('file', file)
     formData.append('jd_text', jdText)
 
-    const response = await $fetch<UploadCVResponse>(`${apiBase}/api/upload-cv`, {
-      method: 'POST',
-      body: formData
-    })
+    // Extended timeout for AI processing (2 minutes)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 120000) // 120 seconds
 
-    return response
+    console.log('🚀 Starting CV upload with 120s timeout...')
+    const startTime = Date.now()
+
+    try {
+      const response = await $fetch<UploadCVResponse>(`${apiBase}/api/upload-cv`, {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal
+      })
+      clearTimeout(timeoutId)
+      const duration = ((Date.now() - startTime) / 1000).toFixed(2)
+      console.log(`✅ CV upload completed in ${duration}s`)
+      return response
+    } catch (error) {
+      clearTimeout(timeoutId)
+      const duration = ((Date.now() - startTime) / 1000).toFixed(2)
+      console.error(`❌ CV upload failed after ${duration}s:`, error)
+      throw error
+    }
   }
 
   const getAnalysis = async (id: string): Promise<AnalysisResponse> => {
@@ -29,11 +46,22 @@ export const useApi = () => {
   }
 
   const submitAnswers = async (id: string, answers: Record<number, string>): Promise<SubmitAnswersResponse> => {
-    return await $fetch<SubmitAnswersResponse>(`${apiBase}/api/submit-answers/${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(answers)
-    })
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 90000) // 90 seconds for CV optimization
+
+    try {
+      const response = await $fetch<SubmitAnswersResponse>(`${apiBase}/api/submit-answers/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(answers),
+        signal: controller.signal
+      })
+      clearTimeout(timeoutId)
+      return response
+    } catch (error) {
+      clearTimeout(timeoutId)
+      throw error
+    }
   }
 
   const getDownloadURL = (id: string): string => {
@@ -42,9 +70,20 @@ export const useApi = () => {
 
   // Phase 7: Cover Letter
   const generateCoverLetter = async (id: string): Promise<CoverLetterResponse> => {
-    return await $fetch<CoverLetterResponse>(`${apiBase}/api/generate-cover-letter/${id}`, {
-      method: 'POST'
-    })
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 seconds for cover letter generation
+
+    try {
+      const response = await $fetch<CoverLetterResponse>(`${apiBase}/api/generate-cover-letter/${id}`, {
+        method: 'POST',
+        signal: controller.signal
+      })
+      clearTimeout(timeoutId)
+      return response
+    } catch (error) {
+      clearTimeout(timeoutId)
+      throw error
+    }
   }
 
   const getCoverLetter = async (id: string): Promise<CoverLetterResponse> => {

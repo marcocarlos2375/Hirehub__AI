@@ -29,5 +29,14 @@ export default defineNuxtConfig({
     public: {
       apiBase: 'http://localhost:8000'
     }
+  },
+
+  // Nitro server configuration for long-running requests
+  nitro: {
+    routeRules: {
+      '/**': {
+        timeout: 180000 // 3 minutes timeout for all routes
+      }
+    }
   }
 })

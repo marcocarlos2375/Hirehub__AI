@@ -1,0 +1,176 @@
+Alexandra Thompson
+S E N I O R F U L L S TAC K D E V E LO P E R
+CONTACT
+Phone:
++1 (555) 123-4567
+Email:
+alexandra.thompson@email.com
+Location:
+San Francisco, CA, USA
+Website:
+https://alexandrathompson.dev
+LinkedIn:
+linkedin.com/in/alexandrathompson
+GitHub:
+github.com/alexthompson
+Dribble:
+dribbble.com/alexandrathompson
+Date of Birth:
+Mar 1990
+Nationality:
+American
+Availability:
+2 weeks
+Driver License:
+B
+SKILLS
+Programming Languages:
+JavaScript (ES6+) Advanced
+TypeScript Advanced
+Python / Flask Intermediate
+Frontend Frameworks:
+React / Next.js Advanced
+Backend Technologies:
+Node.js / Express / NestJS Advanced
+Databases:
+PostgreSQL / MongoDB Advanced
+API Design:
+GraphQL / REST API Design Advanced
+PROFESSIONAL SUMMARY
+Results-driven Full Stack Developer with 8+ years of experience building
+scalable and secure web applications. Specialized in JavaScript, React, and
+Node.js, with a strong background in DevOps, cloud infrastructure (AWS), and
+team leadership. Passionate about clean architecture, testing automation,
+and mentoring junior developers.
+CAREER OBJECTIVE
+To lead cross-functional teams in designing innovative SaaS platforms that
+improve developer productivity and end-user experience through automation
+and modern web technologies.
+TECHNICAL STACK
+React, Next.js, Node.js, Express, NestJS, PostgreSQL, MongoDB, AWS ECS,
+GraphQL, TypeScript, Jest, Docker, Kubernetes, GitHub Actions, Terraform
+EDUCATION
+Master of Science in Computer Science
+Stanford University — Sep 2014 - Jun 2016
+GPA: 3.9/4.0
+Specialization: Software Engineering & Cloud Systems
+Bachelor of Science in Computer Science
+University of California, Berkeley — Sep 2010 - Jun 2014
+Graduated with Honors. Activities: Women in Tech Club, ACM Student
+Chapter.
+WORK EXPERIENCE
+Senior Full Stack Developer
+Tech Innovations Inc., San Francisco, CA — Mar 2021 - Present
+Description:
+Led the development of a multi-tenant SaaS platform for HR
+analytics using Nuxt 3, Flask, and PostgreSQL, increasing platform
+scalability by 40%.
+Integrated AI-powered resume parsing and skill-matching models
+using HuggingFace Transformers and OpenAI APIs.
+Introduced CI/CD pipelines with GitLab and
+DevOps & Tools:
+Docker / Kubernetes Intermediate
+Other:
+AWS / CI-CD Pipelines Advanced
+Team Leadership Advanced
+Soft Skills:
+Agile / Scrum Methodologies Advanced
+Communication & Mentoring Advanced
+LANGUAGES
+English C2 (Native)
+Spanish C1
+French B2
+CERTIFICATIONS
+AWS Solutions Architect –
+Professional
+Amazon Web Services
+Aug 2023
+ID: AWS-SAP-2023-12345
+https://aws.amazon.com/certification/
+Certified Kubernetes Administrator
+(CKA)
+Linux Foundation
+Mar 2022
+ID: CKA-2022-9876
+https://training.linuxfoundation.org/
+HOBBIES & INTERESTS
+Open Source Contributing
+Technical Writing
+Rock Climbing
+Traveling
+Playing Guitar
+REFERENCES
+Michael Chen
+Engineering Manager / Tech Innovations
+Inc.
+Phone: +1 (555) 234-5678
+Email:
+michael.chen@techinnovations.com
+Laura Parker
+Docker Compose, reducing deployment time by 60%.
+Mentored 3 junior developers and established coding guidelines and
+code review processes.
+Key Technologies: Nuxt 3, TypeScript, Python, Flask, Docker, Redis,
+PostHog, Stripe API
+1. Developed internal dashboards and REST APIs for managing IoT
+devices.
+2. Built a custom real-time notification service using WebSockets
+and Redis Streams.
+3. Migrated legacy frontend from Vue 2 to Vue 3 Composition API,
+improving performance and maintainability.
+Full Stack Developer
+NextWave Solutions, Los Angeles, CA — May 2017 - Feb 2021
+Developed single-page applications with React and REST APIs using
+Node.js and Express.
+Improved frontend performance by 40% via code-splitting and lazy
+loading.
+Collaborated with designers and product managers in Agile sprints.
+Junior Web Developer
+CodeWorks Studio, San Jose, CA — Jan 2016 - Apr 2017
+Assisted in developing e-commerce sites using PHP and jQuery.
+Wrote unit tests and handled bug fixing during maintenance phases.
+INTERNSHIPS
+Software Engineering Intern
+Google, Mountain View, CA — Jun 2015 - Aug 2015
+Worked on an internal dashboard for analytics using AngularJS and Go
+APIs.
+PROJECTS
+Open Source Contribution - React Query
+Technologies: TypeScript, React, Jest, GitHub Actions
+Contributed core features and tests to improve caching and async state
+management.
+https://github.com/tanstack/query
+SaaS Task Manager
+Technologies: Next.js, NestJS, PostgreSQL, Docker
+Developed a full-featured task management platform with multi-user
+support and analytics dashboard.
+https://github.com/alexthompson/taskmanager
+CTO / NextWave Solutions
+Phone: +1 (555) 789-0123
+Email: laura.parker@nextwave.com
+PUBLICATIONS
+Optimizing React Performance
+Dev.to — Jun 2023
+A detailed guide on improving React app rendering speed through
+memoization and profiling.
+https://dev.to/optimizing-react
+Scaling Node.js Applications
+Medium — Nov 2022
+Discusses design patterns and load balancing strategies for large-scale
+Node.js systems.
+https://medium.com/@alexandrathompson/scaling-nodejs
+AWARDS
+Best Developer Award
+San Francisco — Jan 2023 - Present
+Received company-wide recognition for outstanding leadership and
+innovation.
+VOLUNTEERING
+Coding Mentor
+San Francisco — Jun 2020 - Dec 2023
+Mentored underrepresented minorities in tech through Code2040,
+focusing on React and backend fundamentals.
+CONFERENCES
+ReactConf Speaker 2023
+Las Vegas, NV — Sep 2023 - Sep 2023
+Presented a talk on optimizing performance in modern React
+applications.

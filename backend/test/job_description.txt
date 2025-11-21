@@ -1,0 +1,102 @@
+Senior Full Stack Developer - Cloud Platform Team
+TechCorp Solutions | San Francisco, CA | Full-time | $150,000 - $200,000
+
+About TechCorp Solutions:
+TechCorp Solutions is a leading provider of enterprise cloud-based software solutions serving over 10,000 customers worldwide. Our platform processes billions of transactions daily and serves millions of users across various industries including healthcare, finance, and e-commerce. We are committed to building cutting-edge technology solutions that empower businesses to scale efficiently and securely.
+
+Position Overview:
+We are seeking an experienced Senior Full Stack Developer to join our Cloud Platform Engineering team. This role will be instrumental in designing, developing, and maintaining our next-generation cloud infrastructure and SaaS applications. You will work closely with cross-functional teams including Product, DevOps, and Security to deliver high-quality, scalable solutions that meet our customers needs.
+
+Key Responsibilities:
+- Design and implement scalable microservices architecture using modern frameworks and cloud-native technologies
+- Lead technical decisions for both frontend and backend development, establishing best practices and coding standards
+- Develop responsive, high-performance user interfaces using React, Next.js, and TypeScript
+- Build robust RESTful APIs and GraphQL services using Node.js, Express, and NestJS
+- Design and optimize database schemas for PostgreSQL and MongoDB, ensuring data integrity and performance
+- Implement comprehensive automated testing strategies including unit tests, integration tests, and end-to-end tests
+- Mentor junior developers through code reviews, pair programming, and technical guidance
+- Collaborate with product managers and designers to translate business requirements into technical solutions
+- Participate in on-call rotation to ensure system reliability and rapid incident response
+- Contribute to architectural decisions and technical roadmap planning
+- Implement CI/CD pipelines using GitHub Actions, Jenkins, or similar tools
+- Monitor application performance and implement optimizations based on metrics and user feedback
+- Ensure security best practices are followed throughout the development lifecycle
+- Document technical specifications, API contracts, and system architecture
+- Stay current with emerging technologies and recommend improvements to the tech stack
+
+Required Technical Skills:
+- 5+ years of professional software development experience with full stack applications
+- Expert-level proficiency in JavaScript/TypeScript with deep understanding of ES6+ features
+- Strong experience with React.js (3+ years) and modern state management (Redux, MobX, or Context API)
+- Production experience with Next.js or similar SSR frameworks
+- Solid backend development skills with Node.js and frameworks like Express, Koa, or NestJS
+- Experience designing and implementing RESTful APIs following industry best practices
+- Strong database skills with both SQL (PostgreSQL, MySQL) and NoSQL (MongoDB, Redis) databases
+- Hands-on experience with AWS cloud services (EC2, S3, Lambda, RDS, CloudFront, etc.)
+- Proficiency with Docker containerization and orchestration using Kubernetes or ECS
+- Experience with version control systems (Git) and collaborative development workflows
+- Strong understanding of CI/CD principles and experience with automation tools
+- Knowledge of testing frameworks (Jest, Mocha, Cypress, Playwright)
+- Experience with monitoring and logging tools (DataDog, New Relic, CloudWatch, ELK stack)
+- Understanding of security principles including authentication, authorization, and data encryption
+- Familiarity with Agile/Scrum methodologies and tools like Jira or Linear
+
+Preferred Qualifications:
+- Experience with GraphQL and Apollo Server/Client
+- Knowledge of Python/Django/Flask for backend services
+- Familiarity with message queue systems (RabbitMQ, Kafka, SQS)
+- Experience with serverless architectures (AWS Lambda, Cloud Functions)
+- Knowledge of infrastructure as code (Terraform, CloudFormation)
+- Experience with performance optimization and scalability challenges
+- Background in building real-time applications using WebSockets or Server-Sent Events
+- Understanding of data structures, algorithms, and system design principles
+- AWS certifications (Solutions Architect, Developer Associate)
+- Experience with Elasticsearch or similar search technologies
+- Contributions to open source projects or technical blog writing
+- Experience in fintech, healthcare, or regulated industries
+- Familiarity with accessibility standards (WCAG) and internationalization
+- Knowledge of mobile development (React Native) is a plus
+
+Soft Skills & Attributes:
+- Excellent problem-solving abilities with attention to detail
+- Strong communication skills, both written and verbal
+- Ability to work independently and take ownership of projects
+- Collaborative mindset with experience working in cross-functional teams
+- Adaptability to changing priorities and fast-paced environments
+- Passion for learning new technologies and sharing knowledge with others
+- Customer-focused approach to software development
+- Strong time management and organizational skills
+
+What We Offer:
+- Competitive salary range ($150,000 - $200,000) based on experience
+- Comprehensive health, dental, and vision insurance
+- 401(k) matching program
+- Unlimited PTO policy
+- Remote-friendly work environment with flexible hours
+- Home office stipend for equipment and setup
+- Professional development budget for courses, conferences, and certifications
+- Stock options with early-stage startup growth potential
+- Regular team events and company offsites
+- Modern tech stack with autonomy to choose the right tools
+- Opportunity to work on challenging problems at scale
+- Collaborative and inclusive engineering culture
+
+Technical Environment:
+- Frontend: React, Next.js, TypeScript, Redux, Tailwind CSS
+- Backend: Node.js, Express, NestJS, GraphQL, REST APIs
+- Databases: PostgreSQL, MongoDB, Redis, Elasticsearch
+- Cloud: AWS (EC2, S3, Lambda, RDS, CloudFront, ECS)
+- DevOps: Docker, Kubernetes, Terraform, GitHub Actions
+- Monitoring: DataDog, Sentry, CloudWatch
+- Tools: Jira, Slack, Notion, Figma
+
+Application Process:
+1. Submit your resume and a brief cover letter explaining your interest
+2. Initial phone screening with our recruiting team (30 minutes)
+3. Technical assessment - coding challenge (take-home, 2-3 hours)
+4. Technical interview with engineering team (60 minutes)
+5. System design interview (60 minutes)
+6. Final interview with engineering leadership and cross-functional partners
+7. Reference checks and offer
+
+TechCorp Solutions is an equal opportunity employer. We celebrate diversity and are committed to creating an inclusive environment for all employees. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, or veteran status.

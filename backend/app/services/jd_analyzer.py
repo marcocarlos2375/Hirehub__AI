@@ -4,10 +4,14 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import store_jd_embedding
+from app.services.cache_service import cached
+from app.services.timeout_handler import with_timeout_and_retry
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
+@cached("jd_analyze", ttl=3600)
+@with_timeout_and_retry(timeout_seconds=30, max_retries=2)
 def analyze_jd_with_gemini(jd_text: str) -> dict:
     """Extract requirements from job description"""
 

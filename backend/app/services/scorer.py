@@ -5,10 +5,14 @@ from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv, get_rag_context_for_jd
 from app.services.toon_serializer import to_toon_string
+from app.services.cache_service import cached
+from app.services.timeout_handler import with_timeout_and_retry
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
+@cached("score_calc", ttl=3600)
+@with_timeout_and_retry(timeout_seconds=settings.GEMINI_TIMEOUT, max_retries=settings.GEMINI_MAX_RETRIES)
 def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = None) -> dict:
     """Calculate detailed compatibility score using AI with RAG context"""
 
@@ -27,13 +31,50 @@ def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = Non
     if rag_context:
         rag_section = f"ADDITIONAL CONTEXT FROM SIMILAR CASES:\n{rag_context}\n\n"
 
+    # Compress CV data - only send relevant fields
+    cv_summary = {
+        "name": cv_data.get('personal_info', {}).get('name', 'Unknown'),
+        "years_experience": cv_data.get('years_of_experience', 0),
+        "skills": cv_data.get('skills', {}),
+        "experience": [
+            {
+                "role": exp.get('role', ''),
+                "company": exp.get('company', ''),
+                "duration": exp.get('duration', ''),
+                "key_achievements": exp.get('achievements', [])[:3]  # Top 3 only
+            }
+            for exp in (cv_data.get('experience', [])[:3])  # Top 3 roles only
+        ],
+        "education": cv_data.get('education', []),
+        "certifications": cv_data.get('certifications', [])
+    }
+
+    # Compress JD data - only send requirements
+    jd_summary = {
+        "position": jd_data.get('position_title', ''),
+        "company": jd_data.get('company_name', ''),
+        "hard_skills": [s.get('skill', '') for s in jd_data.get('hard_skills_required', [])],
+        "soft_skills": jd_data.get('soft_skills_required', []),
+        "experience_required": jd_data.get('experience_required', {}),
+        "responsibilities": jd_data.get('responsibilities', [])[:5],  # Top 5 only
+        "nice_to_have": jd_data.get('nice_to_have_skills', [])
+    }
+
     prompt = f"""Analyze the match between this CV and Job Description:
 
-CV DATA:
-{to_toon_string(cv_data)}
+CANDIDATE:
+- Name: {cv_summary['name']}
+- Experience: {cv_summary['years_experience']} years
+- Skills: {json.dumps(cv_summary['skills'])}
+- Recent Roles: {json.dumps(cv_summary['experience'])}
+- Education: {json.dumps(cv_summary['education'])}
 
-JOB DESCRIPTION DATA:
-{to_toon_string(jd_data)}
+JOB REQUIREMENTS:
+- Position: {jd_summary['position']} at {jd_summary['company']}
+- Required Skills: {', '.join(jd_summary['hard_skills'])}
+- Soft Skills: {', '.join(jd_summary['soft_skills'])}
+- Experience: {json.dumps(jd_summary['experience_required'])}
+- Responsibilities: {json.dumps(jd_summary['responsibilities'])}
 
 {rag_section}Calculate a detailed compatibility score. Return ONLY valid JSON (no markdown):
 """ + """{

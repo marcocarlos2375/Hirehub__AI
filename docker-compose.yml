@@ -12,6 +12,8 @@ services:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       - DATABASE_URL=sqlite:////app/data/hirehub.db
       - USE_TOON_FORMAT=true
     volumes:
@@ -20,6 +22,7 @@ services:
       - ./backend/outputs:/app/outputs    # Generated PDFs
     depends_on:
       - qdrant
+      - redis
     networks:
       - hirehub-network
     restart: unless-stopped
@@ -38,10 +41,29 @@ services:
       - hirehub-network
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    container_name: hirehub-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - hirehub-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
 networks:
   hirehub-network:
     driver: bridge
 
 volumes:
   qdrant_storage:
+    driver: local
+  redis_data:
     driver: local

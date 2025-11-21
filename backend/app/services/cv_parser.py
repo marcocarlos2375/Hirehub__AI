@@ -6,6 +6,8 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding, generate_embeddings_batch
 from app.services.qdrant_service import store_cv_embedding
+from app.services.cache_service import cached
+from app.services.timeout_handler import with_timeout_and_retry
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -24,6 +26,8 @@ def extract_text_from_docx(file_path: str) -> str:
     text = "\n".join([para.text for para in doc.paragraphs])
     return text
 
+@cached("cv_parse", ttl=3600)
+@with_timeout_and_retry(timeout_seconds=30, max_retries=2)
 def parse_cv_with_gemini(cv_text: str) -> dict:
     """Use Gemini to structure CV data"""
 
