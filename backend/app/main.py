@@ -163,20 +163,27 @@ async def upload_cv(
         analysis.jd_embedding_id = jd_embedding_id
         db.commit()
 
-        # Calculate compatibility score with RAG (ASYNC)
-        print("⚡ Running compatibility scoring (async)...")
-        score_data = await calculate_compatibility_score(cv_parsed, jd_parsed, analysis.id)
+        # ============================================================
+        # TEMPORARILY DISABLED FOR PERFORMANCE TESTING
+        # Testing hypothesis: scoring is the main bottleneck (not questions)
+        # ============================================================
+        # # Calculate compatibility score with RAG (ASYNC)
+        # print("⚡ Running compatibility scoring (async)...")
+        # score_data = await calculate_compatibility_score(cv_parsed, jd_parsed, analysis.id)
 
-        # Generate smart questions with RAG (ASYNC)
-        top_gaps = score_data.get('top_gaps', [])
+        # SCORING DISABLED - set minimal values
+        print("⚠️  TESTING MODE: Scoring disabled, questions enabled")
+        analysis.compatibility_score = 0
+        analysis.score_breakdown = {}
+        analysis.gaps = []
+        analysis.strengths = []
+
+        # Generate smart questions with RAG (ASYNC) - ENABLED
+        # Pass empty gaps since we don't have scoring data
         print("⚡ Running question generation (async)...")
-        questions = await generate_smart_questions(cv_parsed, jd_parsed, top_gaps, analysis.id)
+        questions = await generate_smart_questions(cv_parsed, jd_parsed, [], analysis.id)
 
-        # Update analysis with results
-        analysis.compatibility_score = score_data.get('overall_score')
-        analysis.score_breakdown = score_data.get('breakdown')
-        analysis.gaps = top_gaps
-        analysis.strengths = score_data.get('strengths', [])
+        # Update analysis with questions
         analysis.questions = questions
         analysis.answers = {}
 
@@ -184,11 +191,11 @@ async def upload_cv(
 
         return {
             "id": analysis.id,
-            "score": score_data.get('overall_score'),
-            "breakdown": score_data.get('breakdown'),
-            "gaps": top_gaps,
-            "strengths": score_data.get('strengths'),
-            "questions": questions
+            "score": 0,  # Disabled for testing
+            "breakdown": {},
+            "gaps": [],
+            "strengths": [],
+            "questions": questions  # ENABLED
         }
 
     except Exception as e:
