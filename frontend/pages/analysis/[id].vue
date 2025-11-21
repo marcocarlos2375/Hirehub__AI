@@ -143,15 +143,23 @@
               >
                 {{ generatingCoverLetter ? 'Generating...' : 'Generate Cover Letter' }}
               </button>
-              <a
-                v-else
-                :href="getCoverLetterDownloadURL(route.params.id as string)"
-                download
-                class="block w-full bg-green-600 text-white py-3 px-4 rounded-xl font-semibold text-center
-                  hover:bg-green-700 transition-all"
-              >
-                Download Cover Letter
-              </a>
+              <div v-else class="space-y-2">
+                <button
+                  @click="navigateTo(`/cover-letter/${route.params.id}`)"
+                  class="w-full bg-green-600 text-white py-3 px-4 rounded-xl font-semibold
+                    hover:bg-green-700 transition-all"
+                >
+                  View Cover Letter →
+                </button>
+                <a
+                  :href="getCoverLetterDownloadURL(route.params.id as string)"
+                  target="_blank"
+                  class="block w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-xl font-medium text-center text-sm
+                    hover:bg-gray-200 transition-all"
+                >
+                  📄 Download PDF
+                </a>
+              </div>
             </div>
 
             <!-- Learning Path -->
@@ -207,11 +215,7 @@ onMounted(async () => {
   try {
     data.value = await getAnalysis(route.params.id as string)
     // Check if cover letter already exists
-    if (data.value?.optimized_cv) {
-      // Fetch fresh data to check cover_letter field
-      const freshData = await getAnalysis(route.params.id as string)
-      coverLetterGenerated.value = !!freshData.optimized_cv
-    }
+    coverLetterGenerated.value = !!data.value?.cover_letter
   } catch (err) {
     console.error(err)
   } finally {

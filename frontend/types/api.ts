@@ -37,6 +37,9 @@ export interface AnalysisData {
   optimized_cv?: any
   cv_parsed?: any
   jd_parsed?: any
+  cover_letter?: CoverLetterData
+  learning_recommendations?: LearningRecommendationsData
+  interview_prep?: InterviewPrepData
 }
 
 export interface InterviewQuestion {
@@ -136,6 +139,22 @@ export interface LearningRecommendationsData {
   recommendations?: string[]
 }
 
+export interface CoverLetterSignature {
+  name: string
+  email: string
+  phone: string
+  location: string
+}
+
+export interface CoverLetterData {
+  opening_paragraph: string
+  body_paragraph_1: string
+  body_paragraph_2: string
+  body_paragraph_3?: string
+  closing_paragraph: string
+  signature: CoverLetterSignature
+}
+
 // API Response types
 export interface UploadCVResponse {
   id: string
@@ -157,7 +176,7 @@ export interface SubmitAnswersResponse {
 export interface CoverLetterResponse {
   id: string
   message: string
-  cover_letter: any
+  cover_letter: CoverLetterData
 }
 
 export interface LearningRecommendationsResponse {

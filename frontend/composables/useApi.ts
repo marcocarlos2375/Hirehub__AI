@@ -47,6 +47,15 @@ export const useApi = () => {
     })
   }
 
+  const getCoverLetter = async (id: string): Promise<CoverLetterResponse> => {
+    const analysis = await getAnalysis(id)
+    return {
+      id: analysis.id,
+      message: 'Cover letter retrieved',
+      cover_letter: analysis.cover_letter
+    }
+  }
+
   const getCoverLetterDownloadURL = (id: string): string => {
     return `${apiBase}/api/download-cover-letter/${id}`
   }
@@ -67,6 +76,7 @@ export const useApi = () => {
     submitAnswers,
     getDownloadURL,
     generateCoverLetter,
+    getCoverLetter,
     getCoverLetterDownloadURL,
     getLearningRecommendations,
     getInterviewPrep
