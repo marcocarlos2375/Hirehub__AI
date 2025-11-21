@@ -49,13 +49,32 @@
               💡 {{ q.why_asking }}
             </p>
 
+            <!-- Suggested Answers -->
+            <div v-if="q.suggested_answers && q.suggested_answers.length > 0" class="mb-4">
+              <p class="text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                💬 Suggested Answers (click to use):
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="(suggestion, sIdx) in q.suggested_answers"
+                  :key="sIdx"
+                  @click="selectSuggestion(idx, suggestion)"
+                  class="text-sm px-4 py-2 border-2 border-blue-200 bg-blue-50 text-blue-700 rounded-lg
+                    hover:bg-blue-100 hover:border-blue-300 transition-all
+                    focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                >
+                  {{ suggestion }}
+                </button>
+              </div>
+            </div>
+
             <!-- Answer Textarea -->
             <textarea
               v-model="answers[idx]"
               rows="4"
               class="w-full px-4 py-3 border border-gray-200 rounded-xl
                 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-              placeholder="Type your answer here..."
+              placeholder="Type your answer here, or click a suggested answer above..."
             />
           </div>
         </div>
@@ -104,6 +123,10 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const selectSuggestion = (questionIndex: number, suggestion: string): void => {
+  answers.value[questionIndex] = suggestion
+}
 
 const handleSubmit = async (): Promise<void> => {
   submitting.value = true

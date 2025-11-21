@@ -4,6 +4,7 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -27,15 +28,22 @@ def generate_smart_questions(cv_data: dict, jd_data: dict, gaps: list, cv_id: st
     prompt = f"""Based on these gaps between the CV and job requirements:
 
 CV SUMMARY:
-{json.dumps(cv_data, indent=2)}
+{to_toon_string(cv_data)}
 
 JOB REQUIREMENTS:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 TOP GAPS:
-{json.dumps(gaps, indent=2)}
+{to_toon_string(gaps)}
 
 {rag_section}Generate 5-8 smart questions to uncover hidden experience that could close these gaps.
+
+For EACH question, also provide 3-4 suggested answer options that users can select from. These should:
+- Be realistic and varied (from beginner to expert level)
+- Cover different levels of experience (e.g., "Yes, extensively", "Some experience", "Learning/exploring", "Not yet")
+- Be written in first person, ready to use
+- Let users customize them further
+- Contextually include negative/"not yet" options when appropriate
 
 Return ONLY valid JSON array (no markdown):
 """ + """[
@@ -44,11 +52,17 @@ Return ONLY valid JSON array (no markdown):
         "category": "technical/domain/experience/soft_skills",
         "priority": "critical/high/medium/low",
         "potential_impact": "string (e.g., '+10% score if yes')",
-        "why_asking": "string - explain what gap this addresses"
+        "why_asking": "string - explain what gap this addresses",
+        "suggested_answers": [
+            "string - first person answer option 1",
+            "string - first person answer option 2",
+            "string - first person answer option 3",
+            "string - optional 4th answer"
+        ]
     }
 ]
 
-Make questions specific, actionable, and easy to answer with yes/no + details."""
+Make questions specific, actionable, and easy to answer. Suggested answers should be ready to use but editable."""
 
     generation_config = {
         "temperature": 0.4,

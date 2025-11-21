@@ -14,6 +14,7 @@ export interface Question {
   priority: Priority
   potential_impact: string
   why_asking: string
+  suggested_answers?: string[]
 }
 
 export interface BreakdownItem {

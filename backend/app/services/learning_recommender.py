@@ -4,6 +4,7 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -35,13 +36,13 @@ def generate_learning_recommendations(
     prompt = f"""Create a personalized learning path to improve this candidate's profile:
 
 CURRENT PROFILE:
-{json.dumps(cv_data, indent=2)}
+{to_toon_string(cv_data)}
 
 JOB REQUIREMENTS:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 IDENTIFIED GAPS:
-{json.dumps(gaps, indent=2)}
+{to_toon_string(gaps)}
 
 CURRENT SCORE: {current_score}%
 TARGET SCORE: 85%+

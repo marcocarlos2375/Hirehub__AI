@@ -4,6 +4,7 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv, get_rag_context_for_jd
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -29,10 +30,10 @@ def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = Non
     prompt = f"""Analyze the match between this CV and Job Description:
 
 CV DATA:
-{json.dumps(cv_data, indent=2)}
+{to_toon_string(cv_data)}
 
 JOB DESCRIPTION DATA:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 {rag_section}Calculate a detailed compatibility score. Return ONLY valid JSON (no markdown):
 """ + """{

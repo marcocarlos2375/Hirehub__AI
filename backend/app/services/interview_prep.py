@@ -4,6 +4,7 @@ import json
 from app.config import get_settings
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv, get_rag_context_for_jd
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -33,13 +34,13 @@ def generate_interview_prep(
     prompt = f"""Create a comprehensive interview preparation guide for this candidate:
 
 CANDIDATE PROFILE (OPTIMIZED):
-{json.dumps(optimized_cv, indent=2)}
+{to_toon_string(optimized_cv)}
 
 JOB DESCRIPTION:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 ADDITIONAL CONTEXT:
-{json.dumps(answers, indent=2)}
+{to_toon_string(answers)}
 
 {rag_section}Generate interview prep covering:
 1. Phone Screen (30 min) - HR/Recruiter questions

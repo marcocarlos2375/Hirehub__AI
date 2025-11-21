@@ -9,6 +9,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.enums import TA_LEFT, TA_JUSTIFY
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -38,13 +39,13 @@ def generate_cover_letter(
     prompt = f"""Write a compelling, professional cover letter for this job application:
 
 OPTIMIZED CV:
-{json.dumps(optimized_cv, indent=2)}
+{to_toon_string(optimized_cv)}
 
 JOB DESCRIPTION:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 USER'S ADDITIONAL CONTEXT (from questions):
-{json.dumps(answers, indent=2)}
+{to_toon_string(answers)}
 
 {rag_section}INSTRUCTIONS:
 1. Opening: Strong hook that shows enthusiasm and alignment with company mission

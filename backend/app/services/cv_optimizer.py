@@ -9,6 +9,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from app.services.embeddings import generate_embedding
 from app.services.qdrant_service import get_rag_context_for_cv, get_rag_context_for_jd
+from app.services.toon_serializer import to_toon_string
 
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
@@ -32,13 +33,13 @@ def optimize_cv(cv_data: dict, jd_data: dict, answers: dict, cv_id: str = None) 
     prompt = f"""Optimize this CV for the job description, incorporating user's answers:
 
 ORIGINAL CV:
-{json.dumps(cv_data, indent=2)}
+{to_toon_string(cv_data)}
 
 JOB REQUIREMENTS:
-{json.dumps(jd_data, indent=2)}
+{to_toon_string(jd_data)}
 
 USER'S ADDITIONAL INFORMATION (from questions):
-{json.dumps(answers, indent=2)}
+{to_toon_string(answers)}
 
 {rag_section}INSTRUCTIONS:
 1. Rewrite professional summary to emphasize alignment with job
