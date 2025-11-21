@@ -11,10 +11,8 @@ from app.services.timeout_handler import with_timeout_and_retry
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
-@cached("score_calc", ttl=3600)
-@with_timeout_and_retry(timeout_seconds=settings.GEMINI_TIMEOUT, max_retries=settings.GEMINI_MAX_RETRIES)
-def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = None) -> dict:
-    """Calculate detailed compatibility score using AI with RAG context"""
+async def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = None) -> dict:
+    """Calculate detailed compatibility score using AI with RAG context (ASYNC)"""
 
     model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
@@ -134,7 +132,7 @@ Overall score should be 0-100. Be realistic and detailed."""
     }
 
     try:
-        response = model.generate_content(prompt, generation_config=generation_config)
+        response = await model.generate_content_async(prompt, generation_config=generation_config)
         response_text = response.text.strip()
 
         if response_text.startswith("```"):

@@ -163,12 +163,14 @@ async def upload_cv(
         analysis.jd_embedding_id = jd_embedding_id
         db.commit()
 
-        # Calculate compatibility score with RAG (reuse score query embedding)
-        score_data = calculate_compatibility_score(cv_parsed, jd_parsed, analysis.id)
+        # Calculate compatibility score with RAG (ASYNC)
+        print("⚡ Running compatibility scoring (async)...")
+        score_data = await calculate_compatibility_score(cv_parsed, jd_parsed, analysis.id)
 
-        # Generate smart questions with RAG
+        # Generate smart questions with RAG (ASYNC)
         top_gaps = score_data.get('top_gaps', [])
-        questions = generate_smart_questions(cv_parsed, jd_parsed, top_gaps, analysis.id)
+        print("⚡ Running question generation (async)...")
+        questions = await generate_smart_questions(cv_parsed, jd_parsed, top_gaps, analysis.id)
 
         # Update analysis with results
         analysis.compatibility_score = score_data.get('overall_score')

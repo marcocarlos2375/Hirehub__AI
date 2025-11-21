@@ -11,10 +11,8 @@ from app.services.timeout_handler import with_timeout_and_retry
 settings = get_settings()
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
-@cached("question_gen", ttl=3600)
-@with_timeout_and_retry(timeout_seconds=settings.GEMINI_TIMEOUT, max_retries=settings.GEMINI_MAX_RETRIES)
-def generate_smart_questions(cv_data: dict, jd_data: dict, gaps: list, cv_id: str = None) -> list:
-    """Generate smart questions to uncover hidden experience using RAG"""
+async def generate_smart_questions(cv_data: dict, jd_data: dict, gaps: list, cv_id: str = None) -> list:
+    """Generate smart questions to uncover hidden experience using RAG (ASYNC)"""
 
     model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
@@ -89,7 +87,7 @@ Make questions specific, actionable, and easy to answer. Suggested answers shoul
     }
 
     try:
-        response = model.generate_content(prompt, generation_config=generation_config)
+        response = await model.generate_content_async(prompt, generation_config=generation_config)
         response_text = response.text.strip()
 
         if response_text.startswith("```"):
