@@ -26,6 +26,12 @@ def generate_learning_recommendations(
         query_embedding = generate_embedding(query_text)
         rag_context = get_rag_context_for_cv(cv_id, query_text, query_embedding)
 
+    rag_section = ""
+    if rag_context:
+        rag_section = f"SUCCESSFUL LEARNING PATHS FROM SIMILAR CASES:\n{rag_context}\n\n"
+
+    current_score = score_data.get('overall_score', 0)
+
     prompt = f"""Create a personalized learning path to improve this candidate's profile:
 
 CURRENT PROFILE:
@@ -37,12 +43,10 @@ JOB REQUIREMENTS:
 IDENTIFIED GAPS:
 {json.dumps(gaps, indent=2)}
 
-CURRENT SCORE: {score_data.get('overall_score', 0)}%
+CURRENT SCORE: {current_score}%
 TARGET SCORE: 85%+
 
-{f"SUCCESSFUL LEARNING PATHS FROM SIMILAR CASES:\n{rag_context}" if rag_context else ""}
-
-Generate a comprehensive learning plan with:
+{rag_section}Generate a comprehensive learning plan with:
 1. Quick wins (things they can learn/do this week)
 2. Priority courses (3-5 most impactful courses)
 3. 10-week roadmap (weekly breakdown)
@@ -50,20 +54,20 @@ Generate a comprehensive learning plan with:
 5. Expected score improvement
 
 Return JSON:
-{{
+""" + """{
     "current_score": 0,
     "target_score": 85,
     "estimated_weeks": 10,
     "quick_wins": [
-        {{
+        {
             "action": "string - what to do",
             "time": "string - e.g., '2 hours'",
             "impact": "string - e.g., '+3% score'",
             "description": "string - why this helps"
-        }}
+        }
     ],
     "priority_courses": [
-        {{
+        {
             "title": "string - course name",
             "platform": "Udemy/Coursera/DeepLearning.AI/etc",
             "url": "string or null",
@@ -73,24 +77,24 @@ Return JSON:
             "priority": "critical/high/medium",
             "skills_covered": ["array of skills"],
             "why_recommended": "string"
-        }}
+        }
     ],
     "roadmap": [
-        {{
+        {
             "week": 1,
             "focus": "string - main goal",
             "tasks": ["array of specific tasks"],
             "hours_per_week": 10,
             "milestone": "string - what you'll achieve"
-        }}
+        }
     ],
-    "total_investment": {{
+    "total_investment": {
         "time_hours": 100,
         "cost_usd": 50,
         "expected_score_improvement": "+20%"
-    }},
+    },
     "recommendations": ["array of general advice"]
-}}
+}
 
 Be specific with real courses, realistic timelines, and accurate costs."""
 

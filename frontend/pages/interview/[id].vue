@@ -236,11 +236,13 @@
 </template>
 
 <script setup lang="ts">
+import type { InterviewPrepData, Priority } from '~/types/api'
+
 const route = useRoute()
 const { getInterviewPrep } = useApi()
 
 const loading = ref(true)
-const data = ref<any>(null)
+const data = ref<InterviewPrepData | null>(null)
 
 onMounted(async () => {
   try {
@@ -253,9 +255,10 @@ onMounted(async () => {
   }
 })
 
-const getPriorityBadgeClass = (priority: string) => {
+const getPriorityBadgeClass = (priority: Priority): string => {
   if (priority === 'critical') return 'bg-red-100 text-red-700'
   if (priority === 'high') return 'bg-orange-100 text-orange-700'
-  return 'bg-yellow-100 text-yellow-700'
+  if (priority === 'medium') return 'bg-yellow-100 text-yellow-700'
+  return 'bg-gray-100 text-gray-700'
 }
 </script>

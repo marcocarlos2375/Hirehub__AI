@@ -84,19 +84,20 @@
 </template>
 
 <script setup lang="ts">
+import type { Question, Priority } from '~/types/api'
+
 const route = useRoute()
-const router = useRouter()
 const { getAnalysis, submitAnswers, getDownloadURL } = useApi()
 
 const loading = ref(true)
 const submitting = ref(false)
-const questions = ref<any[]>([])
+const questions = ref<Question[]>([])
 const answers = ref<Record<number, string>>({})
 
 onMounted(async () => {
   try {
     const data = await getAnalysis(route.params.id as string)
-    questions.value = data.questions
+    questions.value = data.questions || []
   } catch (err) {
     console.error(err)
   } finally {
@@ -104,7 +105,7 @@ onMounted(async () => {
   }
 })
 
-const handleSubmit = async () => {
+const handleSubmit = async (): Promise<void> => {
   submitting.value = true
 
   try {
@@ -122,7 +123,7 @@ const handleSubmit = async () => {
   }
 }
 
-const getPriorityBadgeClass = (priority: string) => {
+const getPriorityBadgeClass = (priority: Priority): string => {
   if (priority === 'critical') return 'bg-red-100 text-red-700'
   if (priority === 'high') return 'bg-orange-100 text-orange-700'
   if (priority === 'medium') return 'bg-yellow-100 text-yellow-700'

@@ -33,15 +33,22 @@ def init_collections():
         try:
             client.get_collection(collection_name)
             print(f"✓ Collection '{collection_name}' already exists")
-        except:
-            client.create_collection(
-                collection_name=collection_name,
-                vectors_config=VectorParams(
-                    size=settings.EMBEDDING_DIMENSION,
-                    distance=Distance.COSINE
+        except Exception as e:
+            try:
+                client.create_collection(
+                    collection_name=collection_name,
+                    vectors_config=VectorParams(
+                        size=settings.EMBEDDING_DIMENSION,
+                        distance=Distance.COSINE
+                    )
                 )
-            )
-            print(f"✓ Created collection '{collection_name}'")
+                print(f"✓ Created collection '{collection_name}'")
+            except Exception as create_error:
+                # Collection might have been created between the check and create
+                if "already exists" in str(create_error).lower():
+                    print(f"✓ Collection '{collection_name}' already exists")
+                else:
+                    raise
 
 def store_cv_embedding(
     cv_id: str,

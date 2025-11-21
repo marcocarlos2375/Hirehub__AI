@@ -22,6 +22,10 @@ def calculate_compatibility_score(cv_data: dict, jd_data: dict, cv_id: str = Non
     if cv_id:
         rag_context = get_rag_context_for_cv(cv_id, query_text, query_embedding)
 
+    rag_section = ""
+    if rag_context:
+        rag_section = f"ADDITIONAL CONTEXT FROM SIMILAR CASES:\n{rag_context}\n\n"
+
     prompt = f"""Analyze the match between this CV and Job Description:
 
 CV DATA:
@@ -30,57 +34,55 @@ CV DATA:
 JOB DESCRIPTION DATA:
 {json.dumps(jd_data, indent=2)}
 
-{f"ADDITIONAL CONTEXT FROM SIMILAR CASES:\n{rag_context}" if rag_context else ""}
-
-Calculate a detailed compatibility score. Return ONLY valid JSON (no markdown):
-{{
+{rag_section}Calculate a detailed compatibility score. Return ONLY valid JSON (no markdown):
+""" + """{
     "overall_score": 0,
-    "breakdown": {{
-        "hard_skills": {{
+    "breakdown": {
+        "hard_skills": {
             "score": 0,
             "weight": 35,
             "matched": ["array of matched skills"],
             "missing": ["array of missing skills"]
-        }},
-        "soft_skills": {{
+        },
+        "soft_skills": {
             "score": 0,
             "weight": 15,
             "matched": ["array"],
             "missing": ["array"]
-        }},
-        "experience": {{
+        },
+        "experience": {
             "score": 0,
             "weight": 20,
             "candidate_years": 0,
             "required_years": 0,
             "assessment": "string"
-        }},
-        "domain": {{
+        },
+        "domain": {
             "score": 0,
             "weight": 15,
             "assessment": "string"
-        }},
-        "portfolio": {{
+        },
+        "portfolio": {
             "score": 0,
             "weight": 10,
             "assessment": "string"
-        }},
-        "logistics": {{
+        },
+        "logistics": {
             "score": 0,
             "weight": 5,
             "assessment": "string"
-        }}
-    }},
+        }
+    },
     "top_gaps": [
-        {{
+        {
             "gap": "string",
             "priority": "critical/high/medium",
             "impact": "string (e.g., '+15% score if added')"
-        }}
+        }
     ],
     "strengths": ["array of candidate strengths"],
     "recommendations": ["array of actionable recommendations"]
-}}
+}
 
 Overall score should be 0-100. Be realistic and detailed."""
 

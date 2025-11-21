@@ -23,7 +23,7 @@
         </div>
 
         <!-- Score Card -->
-        <div class="bg-white rounded-3xl shadow-lg p-8 mb-6">
+        <div v-if="data" class="bg-white rounded-3xl shadow-lg p-8 mb-6">
           <div class="text-center">
             <div :class="getScoreColorClass(data.score)" class="text-7xl font-bold">
               {{ Math.round(data.score) }}%
@@ -41,11 +41,11 @@
         </div>
 
         <!-- Score Breakdown -->
-        <div v-if="data.breakdown" class="bg-white rounded-3xl shadow-lg p-8 mb-6">
+        <div v-if="data?.breakdown" class="bg-white rounded-3xl shadow-lg p-8 mb-6">
           <h2 class="text-2xl font-bold mb-6">Score Breakdown</h2>
           <div class="space-y-4">
             <div
-              v-for="([key, value], index) in Object.entries(data.breakdown)"
+              v-for="([key, breakdownItem], index) in Object.entries(data.breakdown)"
               :key="index"
               class="flex items-center justify-between"
             >
@@ -55,13 +55,13 @@
                     {{ key.replace('_', ' ') }}
                   </span>
                   <span class="text-gray-600">
-                    {{ Math.round((value as any).score) }}% (weight: {{ (value as any).weight }}%)
+                    {{ Math.round(breakdownItem.score) }}% (weight: {{ breakdownItem.weight }}%)
                   </span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
                   <div
                     class="bg-blue-600 h-2 rounded-full transition-all"
-                    :style="{ width: `${(value as any).score}%` }"
+                    :style="{ width: `${breakdownItem.score}%` }"
                   ></div>
                 </div>
               </div>
@@ -193,11 +193,13 @@
 </template>
 
 <script setup lang="ts">
+import type { AnalysisData, Priority } from '~/types/api'
+
 const route = useRoute()
 const { getAnalysis, generateCoverLetter, getCoverLetterDownloadURL } = useApi()
 
 const loading = ref(true)
-const data = ref<any>(null)
+const data = ref<AnalysisData | null>(null)
 const generatingCoverLetter = ref(false)
 const coverLetterGenerated = ref(false)
 
@@ -205,7 +207,7 @@ onMounted(async () => {
   try {
     data.value = await getAnalysis(route.params.id as string)
     // Check if cover letter already exists
-    if (data.value.optimized_cv) {
+    if (data.value?.optimized_cv) {
       // Fetch fresh data to check cover_letter field
       const freshData = await getAnalysis(route.params.id as string)
       coverLetterGenerated.value = !!freshData.optimized_cv
@@ -230,21 +232,22 @@ const handleGenerateCoverLetter = async () => {
   }
 }
 
-const getScoreColorClass = (score: number) => {
+const getScoreColorClass = (score: number): string => {
   if (score >= 80) return 'text-green-600'
   if (score >= 60) return 'text-yellow-600'
   return 'text-red-600'
 }
 
-const getScoreLabel = (score: number) => {
+const getScoreLabel = (score: number): string => {
   if (score >= 80) return 'Excellent Match'
   if (score >= 60) return 'Good Match'
   return 'Needs Improvement'
 }
 
-const getPriorityClass = (priority: string) => {
+const getPriorityClass = (priority: Priority): string => {
   if (priority === 'critical') return 'bg-red-100 text-red-700'
   if (priority === 'high') return 'bg-orange-100 text-orange-700'
-  return 'bg-yellow-100 text-yellow-700'
+  if (priority === 'medium') return 'bg-yellow-100 text-yellow-700'
+  return 'bg-gray-100 text-gray-700'
 }
 </script>

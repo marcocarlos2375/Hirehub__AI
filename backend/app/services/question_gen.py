@@ -20,6 +20,10 @@ def generate_smart_questions(cv_data: dict, jd_data: dict, gaps: list, cv_id: st
         query_embedding = generate_embedding(query_text)
         rag_context = get_rag_context_for_cv(cv_id, query_text, query_embedding)
 
+    rag_section = ""
+    if rag_context:
+        rag_section = f"SIMILAR QUESTIONS FROM PAST CASES:\n{rag_context}\n\n"
+
     prompt = f"""Based on these gaps between the CV and job requirements:
 
 CV SUMMARY:
@@ -31,19 +35,17 @@ JOB REQUIREMENTS:
 TOP GAPS:
 {json.dumps(gaps, indent=2)}
 
-{f"SIMILAR QUESTIONS FROM PAST CASES:\n{rag_context}" if rag_context else ""}
-
-Generate 5-8 smart questions to uncover hidden experience that could close these gaps.
+{rag_section}Generate 5-8 smart questions to uncover hidden experience that could close these gaps.
 
 Return ONLY valid JSON array (no markdown):
-[
-    {{
+""" + """[
+    {
         "question": "string - the actual question",
         "category": "technical/domain/experience/soft_skills",
         "priority": "critical/high/medium/low",
         "potential_impact": "string (e.g., '+10% score if yes')",
         "why_asking": "string - explain what gap this addresses"
-    }}
+    }
 ]
 
 Make questions specific, actionable, and easy to answer with yes/no + details."""

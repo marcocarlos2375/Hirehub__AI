@@ -31,6 +31,10 @@ def generate_cover_letter(
         query_embedding = generate_embedding(query_text)
         rag_context = get_rag_context_for_cv(cv_id, query_text, query_embedding)
 
+    rag_section = ""
+    if rag_context:
+        rag_section = f"BEST PRACTICES FROM SUCCESSFUL COVER LETTERS:\n{rag_context}\n\n"
+
     prompt = f"""Write a compelling, professional cover letter for this job application:
 
 OPTIMIZED CV:
@@ -42,9 +46,7 @@ JOB DESCRIPTION:
 USER'S ADDITIONAL CONTEXT (from questions):
 {json.dumps(answers, indent=2)}
 
-{f"BEST PRACTICES FROM SUCCESSFUL COVER LETTERS:\n{rag_context}" if rag_context else ""}
-
-INSTRUCTIONS:
+{rag_section}INSTRUCTIONS:
 1. Opening: Strong hook that shows enthusiasm and alignment with company mission
 2. Body Paragraph 1: Highlight 2-3 most relevant experiences/achievements
 3. Body Paragraph 2: Show understanding of company/role + why you're excited
@@ -61,19 +63,19 @@ CRITICAL RULES:
 - Use keywords from job description naturally
 
 Return JSON with this structure:
-{{
+""" + """{
     "opening_paragraph": "string",
     "body_paragraph_1": "string",
     "body_paragraph_2": "string",
     "body_paragraph_3": "string or null",
     "closing_paragraph": "string",
-    "signature": {{
+    "signature": {
         "name": "string",
         "email": "string",
         "phone": "string",
         "location": "string"
-    }}
-}}"""
+    }
+}"""
 
     generation_config = {
         "temperature": 0.5,

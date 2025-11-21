@@ -1,13 +1,22 @@
+import type {
+  UploadCVResponse,
+  AnalysisResponse,
+  SubmitAnswersResponse,
+  CoverLetterResponse,
+  LearningRecommendationsResponse,
+  InterviewPrepResponse
+} from '~/types/api'
+
 export const useApi = () => {
   const config = useRuntimeConfig()
   const apiBase = config.public.apiBase
 
-  const uploadCV = async (file: File, jdText: string) => {
+  const uploadCV = async (file: File, jdText: string): Promise<UploadCVResponse> => {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('jd_text', jdText)
 
-    const response = await $fetch(`${apiBase}/api/upload-cv`, {
+    const response = await $fetch<UploadCVResponse>(`${apiBase}/api/upload-cv`, {
       method: 'POST',
       body: formData
     })
@@ -15,41 +24,41 @@ export const useApi = () => {
     return response
   }
 
-  const getAnalysis = async (id: string) => {
-    return await $fetch(`${apiBase}/api/analysis/${id}`)
+  const getAnalysis = async (id: string): Promise<AnalysisResponse> => {
+    return await $fetch<AnalysisResponse>(`${apiBase}/api/analysis/${id}`)
   }
 
-  const submitAnswers = async (id: string, answers: Record<number, string>) => {
-    return await $fetch(`${apiBase}/api/submit-answers/${id}`, {
+  const submitAnswers = async (id: string, answers: Record<number, string>): Promise<SubmitAnswersResponse> => {
+    return await $fetch<SubmitAnswersResponse>(`${apiBase}/api/submit-answers/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(answers)
     })
   }
 
-  const getDownloadURL = (id: string) => {
+  const getDownloadURL = (id: string): string => {
     return `${apiBase}/api/download-cv/${id}`
   }
 
   // Phase 7: Cover Letter
-  const generateCoverLetter = async (id: string) => {
-    return await $fetch(`${apiBase}/api/generate-cover-letter/${id}`, {
+  const generateCoverLetter = async (id: string): Promise<CoverLetterResponse> => {
+    return await $fetch<CoverLetterResponse>(`${apiBase}/api/generate-cover-letter/${id}`, {
       method: 'POST'
     })
   }
 
-  const getCoverLetterDownloadURL = (id: string) => {
+  const getCoverLetterDownloadURL = (id: string): string => {
     return `${apiBase}/api/download-cover-letter/${id}`
   }
 
   // Phase 8: Learning Recommendations
-  const getLearningRecommendations = async (id: string) => {
-    return await $fetch(`${apiBase}/api/learning-recommendations/${id}`)
+  const getLearningRecommendations = async (id: string): Promise<LearningRecommendationsResponse> => {
+    return await $fetch<LearningRecommendationsResponse>(`${apiBase}/api/learning-recommendations/${id}`)
   }
 
   // Phase 9: Interview Prep
-  const getInterviewPrep = async (id: string) => {
-    return await $fetch(`${apiBase}/api/interview-prep/${id}`)
+  const getInterviewPrep = async (id: string): Promise<InterviewPrepResponse> => {
+    return await $fetch<InterviewPrepResponse>(`${apiBase}/api/interview-prep/${id}`)
   }
 
   return {

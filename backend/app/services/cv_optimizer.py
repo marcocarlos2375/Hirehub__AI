@@ -25,6 +25,10 @@ def optimize_cv(cv_data: dict, jd_data: dict, answers: dict, cv_id: str = None) 
         query_embedding = generate_embedding(query_text)
         rag_context = get_rag_context_for_cv(cv_id, query_text, query_embedding)
 
+    rag_section = ""
+    if rag_context:
+        rag_section = f"BEST PRACTICES FROM SIMILAR SUCCESSFUL CVS:\n{rag_context}\n\n"
+
     prompt = f"""Optimize this CV for the job description, incorporating user's answers:
 
 ORIGINAL CV:
@@ -36,9 +40,7 @@ JOB REQUIREMENTS:
 USER'S ADDITIONAL INFORMATION (from questions):
 {json.dumps(answers, indent=2)}
 
-{f"BEST PRACTICES FROM SIMILAR SUCCESSFUL CVS:\n{rag_context}" if rag_context else ""}
-
-INSTRUCTIONS:
+{rag_section}INSTRUCTIONS:
 1. Rewrite professional summary to emphasize alignment with job
 2. Reorder and reframe experience bullets to highlight relevant work
 3. Add skills uncovered from user answers

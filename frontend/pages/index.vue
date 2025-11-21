@@ -120,7 +120,7 @@ const handleFileChange = (event: Event) => {
   }
 }
 
-const handleSubmit = async () => {
+const handleSubmit = async (): Promise<void> => {
   if (!file.value || !jdText.value) {
     error.value = 'Please upload a CV and paste a job description'
     return
@@ -132,8 +132,12 @@ const handleSubmit = async () => {
   try {
     const result = await uploadCV(file.value, jdText.value)
     await navigateTo(`/analysis/${result.id}`)
-  } catch (err: any) {
-    error.value = err.message || 'Something went wrong. Please try again.'
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      error.value = err.message
+    } else {
+      error.value = 'Something went wrong. Please try again.'
+    }
     console.error(err)
   } finally {
     loading.value = false
