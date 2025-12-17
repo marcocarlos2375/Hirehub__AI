@@ -3,6 +3,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     GEMINI_API_KEY: str
+    OPENAI_API_KEY: str = None  # Optional - only needed for /api/transcribe endpoint
     QDRANT_HOST: str = "qdrant"
     QDRANT_PORT: int = 6333
     REDIS_HOST: str = "redis"
